@@ -7,3 +7,4 @@ export const fetchData = query => {
         params: query
     });
 };
+

@@ -1,21 +1,20 @@
+import { uuid } from 'vue-uuid'; // uuid object is also exported to things
 
 export default {
-    dateStr(){
-        var date = new Date();
-        var seperator1 = "-";
-        var year = date.getFullYear();
-        var month = date.getMonth() + 1;
-        var strDate = date.getDate();
-        var strHour = date.getHours();
-        var min = date.getMinutes();
-        if (month >= 1 && month <= 9) {
-            month = "0" + month;
+    data () {
+        return {
+            uuid: ''
+        };
+    },
+    created() {
+        this.uuid = uuid.v1()
+    },
+    methods: {
+        handleUUIDv1() {
+            this.uuid = this.$uuid.v1()
+        },
+        handleUUIDv4() {
+            this.uuid = this.$uuid.v4()
         }
-        if (strDate >= 0 && strDate <= 9) {
-            strDate = "0" + strDate;
-        }
-        var currentdate = year + month + strDate + strHour + min;
-        console.log(currentdate);
-        return currentdate;
     }
 }

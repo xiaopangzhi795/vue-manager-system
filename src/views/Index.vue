@@ -19,56 +19,39 @@
                         <span>东莞</span>
                     </div>
                 </el-card>
-                <el-card shadow="hover" style="height:252px;">
+                <el-card shadow="hover" >
                     <template #header>
                         <div class="clearfix">
                             <span>语言详情</span>
                         </div>
                     </template>
-                    Vue
-                    <el-progress :percentage="71.3" color="#42b983"></el-progress>JavaScript
-                    <el-progress :percentage="24.1" color="#f1e05a"></el-progress>CSS
-                    <el-progress :percentage="13.7"></el-progress>HTML
-                    <el-progress :percentage="5.9" color="#f56c6c"></el-progress>
+                    JAVA
+                    <el-progress :percentage="80.0" color="#42b983"></el-progress>
+                    数据库
+                    <el-progress :percentage="75.0" color="#f1e05a"></el-progress>
+                    HTML
+                    <el-progress :percentage="70.0" color="#f56c6c"></el-progress>
+                    CSS
+                    <el-progress :percentage="70.0" color="#f56c6c"></el-progress>
+                    JAVASCRIPT
+                    <el-progress :percentage="70.0" color="#f56c6c"></el-progress>
+                    PYTHON
+                    <el-progress :percentage="50.0" color="#42b983"></el-progress>
+                    ARDUINO
+                    <el-progress :percentage="50.0"></el-progress>
+                    DOCKER
+                    <el-progress :percentage="45.0"></el-progress>
+                    VUE
+                    <el-progress :percentage="40.0" color="#f56c6c"></el-progress>
+                    C/C++
+                    <el-progress :percentage="30.0" color="#42b983"></el-progress>
+                    GO
+                    <el-progress :percentage="10.0" color="#42b983"></el-progress>
+
                 </el-card>
             </el-col>
             <el-col :span="16">
-                <el-row :gutter="20" class="mgb20">
-                    <el-col :span="8">
-                        <el-card shadow="hover" :body-style="{ padding: '0px' }">
-                            <div class="grid-content grid-con-1">
-                                <i class="el-icon-user-solid grid-con-icon"></i>
-                                <div class="grid-cont-right">
-                                    <div class="grid-num">1234</div>
-                                    <div>用户访问量</div>
-                                </div>
-                            </div>
-                        </el-card>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-card shadow="hover" :body-style="{ padding: '0px' }">
-                            <div class="grid-content grid-con-2">
-                                <i class="el-icon-message-solid grid-con-icon"></i>
-                                <div class="grid-cont-right">
-                                    <div class="grid-num">321</div>
-                                    <div>系统消息</div>
-                                </div>
-                            </div>
-                        </el-card>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-card shadow="hover" :body-style="{ padding: '0px' }">
-                            <div class="grid-content grid-con-3">
-                                <i class="el-icon-s-goods grid-con-icon"></i>
-                                <div class="grid-cont-right">
-                                    <div class="grid-num">12312</div>
-                                    <div>数量</div>
-                                </div>
-                            </div>
-                        </el-card>
-                    </el-col>
-                </el-row>
-                <el-card shadow="hover" style="height:403px;">
+                <el-card shadow="hover">
                     <template #header>
                         <div class="clearfix">
                             <span>待办事项</span>
@@ -99,18 +82,7 @@
                 </el-card>
             </el-col>
         </el-row>
-        <el-row :gutter="20">
-            <el-col :span="12">
-                <el-card shadow="hover">
-                    <schart ref="bar" class="schart" canvasId="bar" :options="options"></schart>
-                </el-card>
-            </el-col>
-            <el-col :span="12">
-                <el-card shadow="hover">
-                    <schart ref="line" class="schart" canvasId="line" :options="options2"></schart>
-                </el-card>
-            </el-col>
-        </el-row>
+
     </div>
 </template>
 
@@ -118,7 +90,7 @@
 import Schart from "vue-schart";
 import { reactive } from "vue";
 export default {
-    name: "dashboard2",
+    name: "index",
     components: { Schart },
     setup() {
         const name = localStorage.getItem("ms_username");
@@ -199,28 +171,8 @@ export default {
         };
         const todoList = reactive([
             {
-                title: "今天要修复100个bug",
+                title: "前端搞好",
                 status: false,
-            },
-            {
-                title: "今天要修复100个bug",
-                status: false,
-            },
-            {
-                title: "今天要写100行代码加几个bug吧",
-                status: false,
-            },
-            {
-                title: "今天要修复100个bug",
-                status: false,
-            },
-            {
-                title: "今天要修复100个bug",
-                status: true,
-            },
-            {
-                title: "今天要写100行代码加几个bug吧",
-                status: true,
             },
         ]);
 

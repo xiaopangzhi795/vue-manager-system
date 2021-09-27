@@ -5,23 +5,24 @@
           <el-card shadow="hover" class="mgb20">
             <template #header>
               <div class="clearfix">
-                <span>后端加密</span>
+                <span>注册</span>
               </div>
             </template>
 
-            <el-form ref="formRefRsaEn" :rules="rules" :model="formRsaEn" label-width="80px">
-              <el-form-item label="KEY" prop="rsaKey">
-                <el-input v-model="formRsaEn.rsaKey"></el-input>
+            <el-form ref="formRefRegister" :rules="rules" :model="formRegister" label-width="80px">
+              <el-form-item label="账号" prop="username">
+                <el-input v-model="formRegister.username"></el-input>
               </el-form-item>
-              <el-form-item label="加密文本" prop="rsaen">
-                <el-input v-model="formRsaEn.rsaen"></el-input>
+              <el-form-item label="密码" prop="password">
+                <el-input type="password" v-model="formRegister.password"></el-input>
+              </el-form-item>
+              <el-form-item label="确认密码" prop="confirmPwd">
+                <el-input type="password" v-model="formRegister.confirmPwd"></el-input>
               </el-form-item>
 
               <el-form-item>
-                <el-button type="primary" @click="onSubmitRsaEn">RSA加密</el-button>
-                <el-button type="primary" @click="onSubmitAesEn">AES加密</el-button>
-                <el-button type="primary" @click="onSubmitMd5En">MD5加密</el-button>
-                <el-button @click="onResetEn">清空</el-button>
+                <el-button type="primary" @click="onRegister">注册</el-button>
+                <el-button @click="onResetRegister">清空</el-button>
               </el-form-item>
             </el-form>
           </el-card>
@@ -31,76 +32,25 @@
             <el-card shadow="hover">
               <template #header>
                 <div class="clearfix">
-                  <span>后端解密</span>
+                  <span>登录</span>
                   <el-button style="float: right; padding: 3px 0" type="text" @click="onReset">清空</el-button>
                 </div>
               </template>
 
-              <el-form ref="formRefRsaDe" :rules="rules" :model="formRsaDe" label-width="80px">
-                <el-form-item label="KEY" prop="rsaKey">
-                  <el-input v-model="formRsaDe.rsaKey"></el-input>
+              <el-form ref="formRefLogin" :rules="rules" :model="formLogin" label-width="80px">
+                <el-form-item label="用户名" prop="username">
+                  <el-input v-model="formLogin.username"></el-input>
                 </el-form-item>
-                <el-form-item label="加密文本" prop="rsade">
-                  <el-input v-model="formRsaDe.rsade"></el-input>
+                <el-form-item label="密码" prop="password">
+                  <el-input type="password" v-model="formLogin.password"></el-input>
                 </el-form-item>
 
                 <el-form-item>
-                  <el-button type="primary" @click="onSubmitRsaDe">RSA解密</el-button>
-                  <el-button type="primary" @click="onSubmitAesDe">AES解密</el-button>
-                  <el-button @click="onResetDe">清空</el-button>
+                  <el-button type="primary" @click="onLogin">登录</el-button>
+                  <el-button @click="onResetLogin">清空</el-button>
                 </el-form-item>
               </el-form>
             </el-card>
-        </el-col>
-      </el-row>
-
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-card shadow="hover" class="mgb20">
-            <template #header>
-              <div class="clearfix">
-                <span>前端加密</span>
-              </div>
-            </template>
-
-            <el-form ref="formRefRsaEnSelf" :rules="rules" :model="formRsaEnSelf" label-width="80px">
-              <el-form-item label="KEY" prop="rsaKey">
-                <el-input v-model="formRsaEnSelf.rsaKey"></el-input>
-              </el-form-item>
-              <el-form-item label="加密文本" prop="rsaenSelf">
-                <el-input v-model="formRsaEnSelf.rsaenSelf"></el-input>
-              </el-form-item>
-
-              <el-form-item>
-                <el-button type="primary" @click="onSubmitRsaEnSelf">RSA加密</el-button>
-                <el-button type="primary" @click="onSubmitAesEnSelf">AES加密</el-button>
-                <el-button type="primary" @click="onSubmitMd5EnSelf">MD5加密</el-button>
-                <el-button @click="onResetEnSelf">清空</el-button>
-              </el-form-item>
-            </el-form>
-          </el-card>
-        </el-col>
-
-        <el-col :span="12">
-          <el-card shadow="hover">
-            <template #header>
-              <div class="clearfix">
-                <span>前端解密</span>
-              </div>
-            </template>
-
-            <el-form ref="formRefRsaDeSelf" :rules="rules" :model="formRsaDeSelf" label-width="80px">
-              <el-form-item label="加密文本" prop="rsadeSelf">
-                <el-input v-model="formRsaDeSelf.rsadeSelf"></el-input>
-              </el-form-item>
-
-              <el-form-item>
-                <el-button type="primary" @click="onSubmitRsaDeSelf">RSA解密</el-button>
-                <el-button type="primary" @click="onSubmitAesDeSelf">AES解密</el-button>
-                <el-button @click="onResetDeSelf">清空</el-button>
-              </el-form-item>
-            </el-form>
-          </el-card>
         </el-col>
       </el-row>
 
@@ -130,334 +80,182 @@ import request from '../utils/request';
 
 import Rsa from '../utils/rsa'
 
+import dateUtil from "../utils/dateUtil";
+
 export default {
-    name: "index",
+    name: "login",
     components: { Schart },
     setup() {
       const name = localStorage.getItem("ms_username");
       const role = name === "admin" ? "超级管理员" : "普通用户";
       const data = reactive({
-        poseData: "请在上面输入要加密/解密的文本,并点解加密/解密按钮,在此处查看结果"
+        poseData: "登录/注册展示区"
       });
-
-      const todoList = reactive([
-          {
-              title: "前端搞好",
-              status: false,
-          },
-      ]);
 
       //全局修改
       const rules = {
-        rsaen: [
-          { required: true, message: "请输入要加密的字符串", trigger: "blur" },
+        username: [
+          { required: true, message: "请输入用户名", trigger: "blur" },
         ],
-        rsade: [
-          { required: true, message: "请输入要解密的字符串", trigger: "blur" },
+        password: [
+          { required: true, message: "请输入密码", trigger: "blur" },
         ],
-        rsaenSelf: [
-          { required: true, message: "请输入要加密的字符串", trigger: "blur" },
-        ],
-        rsadeSelf: [
-          { required: true, message: "请输入要解密的字符串", trigger: "blur" },
+        confirmPwd: [
+          { required: true, message: "请确认密码", trigger: "blur" },
         ],
       };
 
-      //加密
-      const formRefRsaEn = ref(null);
-      const formRsaEn = reactive({
-        rsaen: "",
-        rsaKey: ""
+      //注册
+      const formRefRegister = ref(null);
+      const formRegister = reactive({
+        username: "",
+        password: "",
+        confirmPwd: ""
       });
-      // 提交 RSA 加密
-      const onSubmitRsaEn = () => {
+      // 提交 注册
+      const onRegister = () => {
         // 表单校验
-        formRefRsaEn.value.validate((valid) => {
+        formRefRegister.value.validate((valid) => {
           if (valid) {
-            console.log(formRsaEn);
-            request({
-              url: "http://127.0.0.1:8080/test/encode",
-              method: 'get',
-              params: {
-                "msg": formRsaEn.rsaen
-              },
-              success: function (res) {
-                console.log(res)
-              },
-              res: {}
-            }).then((res) => {
-              data.poseData = res
-            });
-            ElMessage.success("加密成功！");
-          } else {
-            return false;
-          }
-        });
-      };
-      // 提交 AES 加密
-      const onSubmitAesEn = () => {
-        // 表单校验
-        formRefRsaEn.value.validate((valid) => {
-          if (valid) {
-            console.log(formRsaEn);
-            if (formRsaEn.rsaKey === "") {
-              ElMessage.error("请输入key值！");
+            console.log(formRegister);
+            if (!(formRegister.password === formRegister.confirmPwd)) {
+              ElMessage.error("密码不一致！");
               return;
             }
-            let key = Rsa.enMd5(formRsaEn.rsaKey);
-            let iv = Rsa.enMd5(formRsaEn.rsaKey + key);
-            console.log(formRsaEn);
-            request({
-              url: "http://127.0.0.1:8080/test/aes/encode",
-              method: 'get',
-              params: {
-                "msg": formRsaEn.rsaen,
-                "key": key,
-                "iv": iv
-              },
-              success: function (res) {
-                console.log(res)
-              },
-              res: {}
-            }).then((res) => {
-              data.poseData = res
+
+            request.get("http://127.0.0.1:8080/login/check/" + formRegister.username).then(res => {
+              let key = res;
+              let md5Key = Rsa.enMd5_32(key);
+              let enPwd = Rsa.hmac(formRegister.password, md5Key);
+              // let dateStr = dateUtil.dateStr();
+              // let enPwdFinal = Rsa.hmac(enPwd, dateStr);
+
+              let dataJSON = {
+                username: formRegister.username,
+                password: enPwd
+              };
+              let dataStr = JSON.stringify(dataJSON);
+              console.log(dataStr);
+              let enKey = Rsa.enMd5_16(key);
+              let enIv = Rsa.enMd5_16(enKey + key);
+              let enDataStr = Rsa.aesEncrypt(dataStr, enKey, enIv);
+              console.log(enDataStr);
+              let enKeyData = {
+                "key": enKey,
+                "iv": enIv
+              }
+              let enKeyDataStr = JSON.stringify(enKeyData);
+              console.log(enKeyDataStr);
+              let rsaKeyStr = Rsa.rsaPublicData(enKeyDataStr);
+
+              request({
+                url: "http://127.0.0.1:8080/login/doRegister",
+                method: 'post',
+                params: {
+                  "data": enDataStr,
+                  "key": rsaKeyStr
+                },
+                success: function (res) {
+                  console.log(res)
+                },
+                res: {}
+              }).then((res) => {
+                console.log(res);
+                data.poseData = res
+                ElMessage.success("注册成功！");
+              });
+
             });
-            ElMessage.success("加密成功！");
-          } else {
-            return false;
-          }
-        });
-      };
-      // 提交 MD5 加密
-      const onSubmitMd5En = () => {
-        // 表单校验
-        formRefRsaEn.value.validate((valid) => {
-          if (valid) {
-            console.log(formRsaEn);
-            request({
-              url: "http://127.0.0.1:8080/test/md5",
-              method: 'get',
-              params: {
-                "msg": formRsaEn.rsaen
-              },
-              success: function (res) {
-                console.log(res)
-              },
-              res: {}
-            }).then((res) => {
-              data.poseData = res
-            });
-            ElMessage.success("加密成功！");
           } else {
             return false;
           }
         });
       };
       // 重置
-      const onResetEn = () => {
-        formRefRsaEn.value.resetFields();
-        data.poseData= "请在上面输入要加密/解密的文本,并点解加密/解密按钮,在此处查看结果"
+      const onResetRegister = () => {
+        formRefRegister.value.resetFields();
+        data.poseData = "展示登录/注册结果";
       };
 
-      //前端加密
-      const formRefRsaEnSelf = ref(null);
-      const formRsaEnSelf = reactive({
-        rsaenSelf: ""
+      //登录
+      const formRefLogin = ref(null);
+      const formLogin = reactive({
+        username: "",
+        password: ""
       });
-      // 提交 RSA 加密
-      const onSubmitRsaEnSelf = () => {
+      // 提交 登录
+      const onLogin = () => {
         // 表单校验
-        formRefRsaEnSelf.value.validate((valid) => {
+        formRefLogin.value.validate((valid) => {
           if (valid) {
-            console.log(formRsaEnSelf);
-            var encode =Rsa.rsaPublicData(formRsaEnSelf.rsaenSelf)
-            console.log(encode)
-            data.poseData = encode
-            ElMessage.success("加密成功！");
-          } else {
-            return false;
-          }
-        });
-      };
-      // 提交 AES 加密
-      const onSubmitAesEnSelf = () => {
-        // 表单校验
-        formRefRsaEnSelf.value.validate((valid) => {
-          if (valid) {
-            console.log(formRsaEnSelf);
-            var encode =Rsa.aesEncrypt(formRsaEnSelf.rsaenSelf)
-            console.log(encode)
-            data.poseData = encode
-            ElMessage.success("加密成功！");
-          } else {
-            return false;
-          }
-        });
-      };
-      // 提交 MD5 加密
-      const onSubmitMd5EnSelf = () => {
-        // 表单校验
-        formRefRsaEnSelf.value.validate((valid) => {
-          if (valid) {
-            console.log(formRsaEnSelf);
-            var encode = Rsa.enMd5(formRsaEnSelf.rsaenSelf);
-            console.log(encode)
-            data.poseData = encode
-            ElMessage.success("加密成功！");
-          } else {
-            return false;
-          }
-        });
-      };
-      // 重置
-      const onResetEnSelf = () => {
-        formRefRsaEnSelf.value.resetFields();
-        data.poseData= "请在上面输入要加密/解密的文本,并点解加密/解密按钮,在此处查看结果"
-      };
+            console.log(formLogin);
 
-      //解密
-      const formRefRsaDe = ref(null);
-      const formRsaDe = reactive({
-        rsade: "",
-        rsaKey: ""
-      });
-      // 提交 RSA 解密
-      const onSubmitRsaDe = () => {
-        // 表单校验
-        formRefRsaDe.value.validate((valid) => {
-          if (valid) {
-            console.log(formRsaDe);
-            request({
-              url: "http://127.0.0.1:8080/test/decode",
-              method: 'get',
-              params: {
-                "msg": formRsaDe.rsade
-              },
-              success: function (res) {
-                console.log(res)
-              },
-              res: {}
-            }).then((res) => {
-              data.poseData = res
+            request.get("http://127.0.0.1:8080/login/check/" + formLogin.username).then(res => {
+              let key = res;
+              let md5Key = Rsa.enMd5_32(key);
+              let enPwd = Rsa.hmac(formLogin.password, md5Key);
+              let dateStr = dateUtil.dateStr();
+              let enPwdFinal = Rsa.hmac(enPwd, dateStr);
+
+              let dataJSON = {
+                username: formLogin.username,
+                password: enPwdFinal
+              };
+              let dataStr = JSON.stringify(dataJSON);
+              console.log(dataStr);
+              let enKey = Rsa.enMd5_16(key);
+              let enIv = Rsa.enMd5_16(enKey + key);
+              let enDataStr = Rsa.aesEncrypt(dataStr, enKey, enIv);
+              console.log(enDataStr);
+              let enKeyData = {
+                "key": enKey,
+                "iv": enIv
+              }
+              let enKeyDataStr = JSON.stringify(enKeyData);
+              console.log(enKeyDataStr);
+              let rsaKeyStr = Rsa.rsaPublicData(enKeyDataStr);
+
+              request({
+                url: "http://127.0.0.1:8080/login/doLogin",
+                method: 'post',
+                params: {
+                  "data": enDataStr,
+                  "key": rsaKeyStr
+                },
+                success: function (res) {
+                  console.log(res)
+                },
+                res: {}
+              }).then((res) => {
+                console.log(res);
+                data.poseData = res
+                ElMessage.success("登录成功！");
+              });
+
             });
-            ElMessage.success("解密成功！");
-          } else {
-            return false;
-          }
-        });
-      };
-      // 提交 AES 解密
-      const onSubmitAesDe = () => {
-        // 表单校验
-        formRefRsaDe.value.validate((valid) => {
-          if (valid) {
-            console.log(formRsaDe);
-            if (formRsaDe.rsaKey === "") {
-              ElMessage.error("请输入key值！");
-              return;
-            }
-            let key = Rsa.enMd5(formRsaDe.rsaKey);
-            let iv = Rsa.enMd5(formRsaDe.rsaKey + key);
-            request({
-              url: "http://127.0.0.1:8080/test/aes/decode",
-              method: 'get',
-              params: {
-                "msg": formRsaDe.rsade,
-                "key": key,
-                "iv": iv
-              },
-              success: function (res) {
-                console.log(res)
-              },
-              res: {}
-            }).then((res) => {
-              data.poseData = res
-            });
-            ElMessage.success("解密成功！");
           } else {
             return false;
           }
         });
       };
       // 重置
-      const onResetDe = () => {
-        formRefRsaDe.value.resetFields();
+      const onResetLogin = () => {
+        formRefLogin.value.resetFields();
         data.poseData= "请在上面输入要加密/解密的文本,并点解加密/解密按钮,在此处查看结果"
       };
-
-      //前端解密
-      const formRefRsaDeSelf = ref(null);
-      const formRsaDeSelf = reactive({
-        rsadeSelf: ""
-      });
-      // 提交 RSA 解密
-      const onSubmitRsaDeSelf = () => {
-        // 表单校验
-        formRefRsaDeSelf.value.validate((valid) => {
-          if (valid) {
-            console.log(formRsaDeSelf);
-            var encode =Rsa.rsaPrivateData(formRsaDeSelf.rsadeSelf)
-            console.log(encode)
-            data.poseData = encode
-            ElMessage.success("解密成功！");
-          } else {
-            return false;
-          }
-        });
-      };
-      // 提交 AES 解密
-      const onSubmitAesDeSelf = () => {
-        // 表单校验
-        formRefRsaDeSelf.value.validate((valid) => {
-          if (valid) {
-            console.log(formRsaDeSelf);
-            var encode =Rsa.aesDecrypt(formRsaDeSelf.rsadeSelf)
-            console.log(encode)
-            data.poseData = encode
-            ElMessage.success("解密成功！");
-          } else {
-            return false;
-          }
-        });
-      };
-      // 重置
-      const onResetDeSelf = () => {
-        formRefRsaDeSelf.value.resetFields();
-        data.poseData= "请在上面输入要加密/解密的文本,并点解加密/解密按钮,在此处查看结果"
-      };
-
 
       return {
         data,
-        name,
-        todoList,
-        role,
 
-        formRefRsaEn,
-        formRsaEn,
-        onSubmitRsaEn,
-        onSubmitAesEn,
-        onSubmitMd5En,
-        onResetEn,
+        formRefLogin,
+        formLogin,
+        onLogin,
+        onResetLogin,
 
-        formRefRsaEnSelf,
-        formRsaEnSelf,
-        onSubmitRsaEnSelf,
-        onSubmitAesEnSelf,
-        onSubmitMd5EnSelf,
-        onResetEnSelf,
-
-        formRefRsaDe,
-        formRsaDe,
-        onSubmitRsaDe,
-        onSubmitAesDe,
-        onResetDe,
-
-        formRefRsaDeSelf,
-        formRsaDeSelf,
-        onSubmitRsaDeSelf,
-        onSubmitAesDeSelf,
-        onResetDeSelf,
+        formRefRegister,
+        formRegister,
+        onRegister,
+        onResetRegister,
 
         rules,
       };

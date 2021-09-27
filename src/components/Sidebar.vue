@@ -39,6 +39,21 @@ export default {
     setup() {
         const items = [
             {
+              icon: "el-icon-lx-home",
+              index: "/index",
+              title: "主页",
+            },
+            {
+              icon: "el-icon-lx-home",
+              index: "/login2",
+              title: "登录",
+            },
+            {
+              icon: "el-icon-lx-home",
+              index: "/encode",
+              title: "加解密",
+            },
+            {
                 icon: "el-icon-lx-home",
                 index: "/dashboard",
                 title: "系统首页",

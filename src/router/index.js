@@ -11,6 +11,30 @@ const routes = [
         component: Home,
         children: [
             {
+                path: "/index",
+                name: "index",
+                meta: {
+                    title: '主页'
+                },
+                component: () => import ( /* webpackChunkName: "dashboard" */ "../views/Index.vue")
+            },
+            {
+                path: "/login2",
+                name: "login2",
+                meta: {
+                    title: '登录'
+                },
+                component: () => import ( /* webpackChunkName: "dashboard" */ "../views/Login2.vue")
+            },
+            {
+                path: "/encode",
+                name: "encode",
+                meta: {
+                    title: '加解密'
+                },
+                component: () => import ( /* webpackChunkName: "dashboard" */ "../views/Encoder.vue")
+            },
+            {
                 path: "/dashboard",
                 name: "dashboard",
                 meta: {
