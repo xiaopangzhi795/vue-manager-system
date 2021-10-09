@@ -43,6 +43,11 @@ export default {
               index: "/index",
               title: "主页",
             },
+          {
+            icon: "el-icon-lx-home",
+            index: "/test",
+            title: "测试",
+          },
             {
               icon: "el-icon-lx-home",
               index: "/login2",

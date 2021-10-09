@@ -19,6 +19,14 @@ const routes = [
                 component: () => import ( /* webpackChunkName: "dashboard" */ "../views/Index.vue")
             },
             {
+                path: "/test",
+                name: "test",
+                meta: {
+                    title: '测试'
+                },
+                component: () => import ( /* webpackChunkName: "dashboard" */ "../views/Test.vue")
+            },
+            {
                 path: "/login2",
                 name: "login2",
                 meta: {
@@ -112,6 +120,13 @@ const routes = [
                     title: '找不到页面'
                 },
                 component: () => import (/* webpackChunkName: "404" */ '../views/404.vue')
+            }, {
+                path: '/500',
+                name: '500',
+                meta: {
+                    title: '服务器异常'
+                },
+                component: () => import (/* webpackChunkName: "404" */ '../views/500.vue')
             }, {
                 path: '/403',
                 name: '403',
