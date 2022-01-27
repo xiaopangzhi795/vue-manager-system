@@ -8,3 +8,11 @@ export const fetchData = query => {
     });
 };
 
+
+export const calculateData = query => {
+    return request({
+        url: './calculate.json',
+        method: 'get',
+        params: query
+    });
+};

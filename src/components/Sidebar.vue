@@ -54,9 +54,26 @@ export default {
               title: "登录",
             },
             {
-              icon: "el-icon-lx-home",
-              index: "/encode",
-              title: "加解密",
+              icon: "el-icon-lx-cascades",
+              index: 3,
+              title: "工具",
+              subs: [
+                {
+                  icon: "el-icon-lx-home",
+                  index: "/encode",
+                  title: "加解密",
+                },
+                {
+                  icon: "el-icon-lx-home",
+                  index: "/calculate",
+                  title: "计算",
+                },
+                {
+                  icon: "el-icon-lx-home",
+                  index: "/monitor",
+                  title: "监控",
+                }
+              ]
             },
             {
                 icon: "el-icon-lx-home",

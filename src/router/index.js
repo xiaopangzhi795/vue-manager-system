@@ -43,6 +43,22 @@ const routes = [
                 component: () => import ( /* webpackChunkName: "dashboard" */ "../views/Encoder.vue")
             },
             {
+                path: "/calculate",
+                name: "calculate",
+                meta: {
+                    title: '计算'
+                },
+                component: () => import ( /* webpackChunkName: "dashboard" */ "../views/Calculate.vue")
+            },
+            {
+                path: "/monitor",
+                name: "monitor",
+                meta: {
+                    title: '监控'
+                },
+                component: () => import ( /* webpackChunkName: "dashboard" */ "../views/Monitor.vue")
+            },
+            {
                 path: "/dashboard",
                 name: "dashboard",
                 meta: {
